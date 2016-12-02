@@ -1,0 +1,80 @@
+1. Start a new project (the name of the project should be 'dojo_ninjas')
+-rails new dojo_ninjas
+
+2. Create appropriate tables/models using "rails generate model", "rake db:create" and "rake db:migrate".
+-rails g model Dojo name:string city:string state:string
+-rails g model Ninja first_name:string last_name:string dojo:references
+-rake db:migrate
+
+3. Using Ruby console:
+1.) Create 3 dojos (insert some blank entries just to make sure it's allowing you to insert empty entries)
+-Dojo.create(name:"CodingDojo Silicon Valley", city:"Mountain View", state:"CA")
+-Dojo.create(name:"CodingDojo Seattle", city:"Seattle", state:"WA")
+-Dojo.create(name:"CodingDojo New York", city:"New York", state:"NY")
+-Dojo.create()
+
+4.Change your models so that it does the following validations:
+1.)For the dojo, require the presence of the name, city, and state; also require the state to be two characters long
+class Dojo < ActiveRecord::Base
+  has_many :ninjas
+  validates :name, :city, :state, presence: true
+  validates :state, length: { is: 2 }
+end
+
+2.)For the ninja, require the presence of the first name and last name
+class Ninja < ActiveRecord::Base
+  belongs_to :dojo
+    validates :first_name, :last_name, presence: true
+end
+
+5. Make sure that your ninja model belongs to the dojo (specify this in the model for both the dojo and the ninja)
+  class Ninja < ActiveRecord::Base
+  belongs_to :dojo
+  class Dojo < ActiveRecord::Base
+  has_many :ninjas
+
+6.Using ruby console
+1.)Delete the three dojos you created (e.g. Dojo.find(1).destroy; also look up destroy_all method)
+-Dojo.find(1).destroy
+-Dojo.destroy_all()
+
+2.)Create 3 additional dojos by using Dojo.new().
+-Dojo.new(name:"CodingDojo Silicon Valley", city:"Mountain View", state:"CA").save
+-Dojo.create(name:"CodingDojo Seattle", city:"Seattle", state:"WA").save
+-Dojo.create(name:"CodingDojo New York", city:"New York", state:"NY").save
+
+3.)Try to create a few more dojos but without specifying some of the required fields. Make sure that the validation works and generates the errors.
+-Dojo.create(name:"", city:"", state:"").errors.full_messages
+-Dojo.create(name:"f", city:"sfdafd", state:"sd").errors.full_messages
+
+4.)Create 3 ninjas that belong to the first dojo you created.
+-Ninja.create(dojo: Dojo.first, first_name:"Raymond", last_name:"Zhong")
+-Ninja.create(dojo: Dojo.first, first_name:"NFIRSTONE", last_name:"NLAST")
+-Ninja.create(dojo: Dojo.first, first_name:"NFIRSTTWO", last_name:"NLAST")
+
+5.)Create 3 more ninjas and have them belong to the second dojo you created.
+-Ninja.create(dojo: Dojo.second, first_name:"Raymond", last_name:"Zhong")
+-Ninja.create(dojo: Dojo.second, first_name:"NFIRSTONE", last_name:"NLAST")
+-Ninja.create(dojo: Dojo.second, first_name:"NFIRSTTWO", last_name:"NLAST")
+
+6.)Create 3 more ninjas and have them belong to the third dojo you created.
+-Ninja.create(dojo: Dojo.third, first_name:"NFIRSTONE", last_name:"NLAST")
+-Ninja.create(dojo: Dojo.third, first_name:"NFIRSTTWO", last_name:"NLAST")
+-Ninja.create(dojo: Dojo.third, first_name:"NFIRSTTHREE", last_name:"NLAST")
+
+7.)Make sure you understand how to get all of the ninjas for any dojo (e.g. get all the ninjas for the first dojo, second dojo, etc).
+Ninja.all
+
+8.)How would you only retrieve the first_names of the ninjas that belong to the second dojo and order the result by created_at DESC order?
+-Ninja.where(dojo: Dojo.second).order(first_name: :desc)
+
+9.)Delete the second dojo. How could you adjust your model so that it automatically removes all of the ninjas associated with that dojo?
+Dojo.second.delete
+Ninja.where(dojo_id: 6).destroy_all
+
+class Dojo < ActiveRecord::Base
+  has_many :ninjas, dependent: :destroy
+  validates :name, :city, :state, presence: true
+  validates :state, length: { is: 2 }
+
+end

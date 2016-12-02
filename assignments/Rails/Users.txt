@@ -1,0 +1,76 @@
+1. Create a new project, using rails new user_login_project
+-rails new user_login_project
+
+2. Create a new model called 'User' with the information above.
+-rails g model User first_name:string last_name:string email:string age:integer
+-rake db:migrate
+
+3. Rails will automatically create the automatic increment of the primary field called ID as well as created_at and updated_at time stamps.
+
+4. Create a few records in the users table using the Rails console.
+-User.create(first_name:"Jon", last_name:"Stark", email:"jon@thewall.com", age:17)
+-User.create(first_name:"Ray", last_name:"Zhong", email:"raymond.zhong@gmail.com", age:20)
+
+5. Get familiar with .save, .valid?, .new_record?
+-user3 = User.new
+-user3.save
+-user4 = User.new(first_name:"Al", last_name:"Gore", email:"algore@landing.com", age:36)
+-user4.valid?
+-user4.new_record?
+-user3.new_record?
+
+6. Make sure prior to validations, you know how to add a new record even if some of the fields are empty.
+
+7. Now add validations to the model so that...
+1.) it requires the presence of the all four fields.
+class User < ActiveRecord::Base
+  EMAIL_REGEX = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]+)\z/i
+  validates :first_name, :last_name, presence: true, length: { in: 2..20 }
+  validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: EMAIL_REGEX }
+end
+
+-user5 = User.new(first_name:"Alex", last_name:"Brown", email:"alexb@landing.com", age:11)
+  validates :age, presence: true, numericality: true
+2.) it requires the age to be numeric.
+-validates_numericality_of :age, presence: true, only_integer: true, greater_than_or_equal_to: 10, less_than: 150
+
+3.) it requires the first_name and the last_name to be at least 2 characters each.
+-validates :first_name, :last_name, presence: true, length: { in: 2..20 }
+
+4.) it requires the age to be at least 10 and below 150 (look into http://apidock.com/rails/ActiveModel/Validations/HelperMethods/validates_numericality_of for some help).
+-validates_numericality_of :age, presence: true, only_integer: true, greater_than_or_equal_to: 10, less_than: 150
+
+5.) use .errors and .errors.full_messages so that you can see/display the error messages when the validations are failing
+-User.update(4, age:1).errors.full_messages
+
+8.
+1.) See if it allows you to insert some records when the fields are not meeting the validation rules we set (e.g. try to create a record where age is 5 or above 150, or where the first name is just one character, etc).
+-User.create(first_name:"J", last_name:"Stark", email:"jon@thewall.com", age:170)
+
+2.) Make sure your console returns appropriate error messages when you try to save something that's not meeting the validation rules.
+=> #<ActiveModel::Errors:0x007ffee7c9d770 @base=#<User id: nil, first_name: "J", last_name: "Stark", email: "jon@thewall.com", age: 170, crea
+ted_at: nil, updated_at: nil>, @messages={:first_name=>["is too short (minimum is 2 characters)"], :email=>["has already been taken"], :age=>[
+"must be less than 150"]}>
+
+3.) Know how to retrieve all users.
+-Users.all
+
+4.) Know how to get the first user.
+-User.first
+
+5.) Know how to get the last user.
+-User.last
+
+6.) Know how to get the users sorted by their first name (order by first_name DESC).
+See ordering rules and more here: http://guides.rubyonrails.org/active_record_querying.html#ordering
+-User.order(first_name: :desc)
+
+7.) Get the record of the user whose id is 3 and UPDATE the person's last_name to something else.
+Know how to do this directly in the console using .find and .save.
+-user1 = User.find(3)
+-user1.update(last_name: "somethingelse")
+-user1.save
+-User.find(4).update(last_name: "donno")
+
+8.) Know how to delete a record of a user whose id is 4 (use something like User.find(2).destroy...).
+-User.find(4).destroy
