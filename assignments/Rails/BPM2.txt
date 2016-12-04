@@ -1,0 +1,183 @@
+rails new bpm3
+cd bpm3
+
+gem 'hirb'
+gem 'rails-footnotes', '~> 4.0'
+bundle install
+
+rails g model User first_name:string last_name:string email_address:string
+rails g model Blog name:string description:string
+rails g model Owner blog:references user:references
+rails g model Post title:string content:string blog:references user:references
+rails g model Message author:string message:string post:references user:references
+rake db:migrate
+
+///class RemoveColumn < ActiveRecord::Migration
+  def change
+    remove_column :owners, :title
+    remove_column :owners, :content
+  end
+end
+rake db:migrate
+rake db:rollback
+rake db:migrate///
+
+1. require the presence of name and description for the blog.
+class Blog < ActiveRecord::Base
+  has_many :posts, :owners
+  validates :name, :description, presence: true
+end
+
+2. require the presence of title and content for the posts, require the title to be at least 7 characters long.
+class Post < ActiveRecord::Base
+  belongs_to :blog
+  belongs_to :user
+  has_many :messages
+  validates :content, presence: true
+  validates :title, presence: true, length: { minimum: 7 }
+end
+
+3. require author and message for the messages. Require the message to be at least 15 characters long.
+class Message < ActiveRecord::Base
+  belongs_to :post
+  belongs_to :user
+  validates :author, presence: true
+  validates :message, presence: true, length: { minimum: 15 }
+end
+
+class User < ActiveRecord::Base
+    has_many :messages, :posts, :owners
+    EMAIL_REGEX = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]+)\z/i
+    validates :first_name, :last_name, presence: true, length: { in: 2..20 }
+    validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: EMAIL_REGEX }
+end
+
+class Owner < ActiveRecord::Base
+  belongs_to :blog
+  belongs_to :user
+end
+
+rails c
+Hirb.enable
+
+1. Create 5 users
+User.create(first_name:"fname1", last_name:"lname1", email_address:"email1@email.com")
+User.create(first_name:"fname2", last_name:"lname2", email_address:"email2@email.com")
+User.create(first_name:"fname3", last_name:"lname3", email_address:"email3@email.com")
+User.create(first_name:"fname4", last_name:"lname4", email_address:"email4@email.com")
+User.create(first_name:"fname5", last_name:"lname5", email_address:"email5@email.com")
+
+2. Create 5 blogs
+Blog.create(name:"Blog1", description:"Blog1Description")
+Blog.create(name:"Blog2", description:"Blog2Description")
+Blog.create(name:"Blog3", description:"Blog3Description")
+Blog.create(name:"Blog4", description:"Blog4Description")
+Blog.create(name:"Blog5", description:"Blog5Description")
+
+3. Have the first 3 blogs be owned by the first user
+u1 = User.first
+u2 = User.second
+u3 = User.third
+u4 = User.fourth
+u5 = User.fifth
+
+b1 = Blog.first
+b2 = Blog.second
+b3 = Blog.third
+b4 = Blog.fourth
+b5 = Blog.fifth
+
+Owner.create(user:u1, blog:b1)
+Owner.create(user:u1, blog:b1)
+Owner.create(user:u1, blog:b1)
+
+4. Have the 4th blog you create be owned by the second user
+Owner.create(user:u2, blog:b4)
+
+5. Have the 5th blog you create be owned by the last user
+Owner.create(user:User.last, blog:b5)
+
+6. Have the third user own all of the blogs that were created.
+Owner.create(user:User.third, blog:b1)
+Owner.create(user:User.third, blog:b2)
+Owner.create(user:User.third, blog:b3)
+Owner.create(user:User.third, blog:b4)
+Owner.create(user:User.third, blog:b5)
+
+7. Have the first user create 3 posts for the blog with an id of 2. Remember that you shouldn't do Post.create(user: User.first, blog_id: 2) but more like Post.create(user: User.first, blog: Blog.find(2)). Again, you should never reference the foreign key in Rails.
+Post.create(user: User.first, blog: Blog.find(2), title: "post1blog_id2", content: "post1blog_id2content")
+Post.create(user: User.first, blog: Blog.find(2), title: "post2blog_id2", content: "post2blog_id2content")
+Post.create(user: User.first, blog: Blog.find(2), title: "post3blog_id2", content: "post3blog_id2content")
+
+8. Have the second user create 5 posts for the last Blog.
+Post.create(user: User.second, blog: Blog.last, title: "User.secondBlog.lastPost1", content: "User.secondBlog.lastPost1content")
+Post.create(user: User.second, blog: Blog.last, title: "User.secondBlog.lastPost2", content: "User.secondBlog.lastPost2content")
+Post.create(user: User.second, blog: Blog.last, title: "User.secondBlog.lastPost3", content: "User.secondBlog.lastPost3content")
+Post.create(user: User.second, blog: Blog.last, title: "User.secondBlog.lastPost4", content: "User.secondBlog.lastPost4content")
+Post.create(user: User.second, blog: Blog.last, title: "User.secondBlog.lastPost5", content: "User.secondBlog.lastPost5content")
+
+9. Have the 3rd user create several posts for different blogs.
+Post.create(user: User.third, blog: Blog.fourth, title: "User.fourthBlog.lastPost1", content: "User.fourthBlog.lastPost1content")
+Post.create(user: User.third, blog: Blog.fourth, title: "User.fourthBlog.lastPost2", content: "User.fourthBlog.lastPost2content")
+Post.create(user: User.third, blog: Blog.third, title: "User.thirdBlog.thirdPost3", content: "User.thirdBlog.thirdPost3content")
+Post.create(user: User.third, blog: Blog.third, title: "User.thirdBlog.thirdPost4", content: "User.thirdBlog.thirdPost4content")
+Post.create(user: User.third, blog: Blog.first, title: "User.thirdBlog.firstPost5", content: "User.thirdBlog.firstPost5content")
+
+10. Have the 3rd user create 2 messages for the first post created and 3 messages for the second post created
+Message.create(user: User.third, post: Post.first, author: "User.third", message: "User.thirdPost.firstmesage1")
+Message.create(user: User.third, post: Post.first, author: "User.third", message: "User.thirdPost.firstmesage2")
+Message.create(user: User.third, post: Post.second, author: "User.third", message: "User.secondPost.firstmesage1")
+Message.create(user: User.third, post: Post.second, author: "User.third", message: "User.secondPost.firstmesage2")
+Message.create(user: User.third, post: Post.second, author: "User.third", message: "User.secondPost.firstmesage3")
+
+11. Have the 4th user create 3 messages for the last post you created.
+Message.create(user: User.fourth, post: Post.last, author: "User.fourth", message: "User.fourthPost.lastmesage1")
+Message.create(user: User.fourth, post: Post.last, author: "User.fourth", message: "User.fourthPost.lastmesage2")
+Message.create(user: User.fourth, post: Post.last, author: "User.fourth", message: "User.fourthPost.lastmesage3")
+
+12. Change the owner of the 2nd post to the last user.
+Post.find(2).update(user: User.last)
+
+13. Change the 2nd post's content to be something else.
+Post.find(2).update(content: "something else")
+
+14. Retrieve all blogs owned by the 3rd user (make this work by simply doing: User.find(3).blogs).
+User.find(3).blogs
+
+15. Retrieve all posts that were created by the 3rd user
+User.find(3).posts
+
+16. Retrieve all messages left by the 3rd user
+User.find(3).messages
+
+17. Retrieve all posts associated with the first blog as well as who left these posts.
+Post.select('blog_id, first_name, last_name, title, content, posts.updated_at').joins(:user).where(blog: Blog.find(1))
+
+t.string   "title"
+t.string   "content"
+t.integer  "blog_id"
+t.integer  "user_id"
+t.datetime "created_at"
+t.datetime "updated_at"
+
+18. Retrieve all messages associated with the first blog along with all the user information of those who left the messages.
+Post.select('messages.user_id, messages.post_id, author, message, first_name, last_name, messages.updated_at').joins(:messages, :user).where(blog: Blog.find(1))
+
+create_table "messages", force: true do |t|
+  t.string   "author"
+  t.string   "message"
+  t.integer  "post_id"
+  t.integer  "user_id"
+  t.datetime "created_at"
+  t.datetime "updated_at"
+end
+Blog.find(1).messages
+Message.create(user: User.first, post: Post.find(16), author: "User.first", message: "User.firstPost.16message1")
+
+19. Grab all user information of those that own the first blog (make this work by allowing Blog.first.owners to work).
+Blog.first.owners
+
+20. Change it so that the first blog is no longer owned by the first user.
+Blog.first.owners.update_all(user_id: "2")
+
+Owner.where("blog_id =1").update_all(user_id: "2")

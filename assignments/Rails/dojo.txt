@@ -66,7 +66,10 @@ end
 Ninja.all
 
 8.)How would you only retrieve the first_names of the ninjas that belong to the second dojo and order the result by created_at DESC order?
+Ninja.find_by_sql("SELECT first_name FROM ninjas WHERE dojo_id = ?? ORDER BY first_name DESC")
+Dojo.second.ninjas.select("first_name").order(first_name: :desc)
 -Ninja.where(dojo: Dojo.second).order(first_name: :desc)
+
 
 9.)Delete the second dojo. How could you adjust your model so that it automatically removes all of the ninjas associated with that dojo?
 Dojo.second.delete

@@ -1,0 +1,93 @@
+Create the migration files as well as the models for the application above.
+rails new bpm
+cd bpm
+
+gem 'hirb'
+gem 'rails-footnotes', '~> 4.0'
+
+bundle install
+
+rails g model Blog name:string description:string
+rails g model Post title:string content:string blog:references
+rails g model Message author:string message:string post:references
+rake db:migrate
+
+rails c
+Hirb.enable
+
+1. require the presence of name and description for the blog.
+class Blog < ActiveRecord::Base
+  has_many :posts
+  validates :name, :description, presence: true
+end
+
+2. require the presence of title and content for the posts, require the title to be at least 7 characters long.
+class Post < ActiveRecord::Base
+  belongs_to :blog
+  has_many :messages
+  validates :content, presence: true
+  validates :title, presence: true, length: { minimum: 7 }
+end
+
+3. require author and message for the messages. Require the message to be at least 15 characters long.
+class Message < ActiveRecord::Base
+  belongs_to :post
+  validates :author, presence: true
+  validates :message, presence: true, length: { minimum: 15 }
+end
+
+1. create 5 new blogs.
+Blog.create(name:"Blog1", description:"Blog1Description")
+Blog.create(name:"Blog2", description:"Blog2Description")
+Blog.create(name:"Blog3", description:"Blog3Description")
+Blog.create(name:"Blog4", description:"Blog4Description")
+Blog.create(name:"Blog5", description:"Blog5Description")
+
+2. create several posts for each blog.
+Post.create(blog: Blog.first, title:"Post1title", content:"Post1content")
+Post.create(blog: Blog.first, title:"Post2title", content:"Post2content")
+Post.create(blog: Blog.first, title:"Post3title", content:"Post3content")
+
+Post.create(blog: Blog.second, title:"Post1title", content:"Post1content")
+Post.create(blog: Blog.second, title:"Post2title", content:"Post2content")
+Post.create(blog: Blog.second, title:"Post3title", content:"Post3content")
+
+Post.create(blog: Blog.third, title:"Post1title", content:"Post1content")
+Post.create(blog: Blog.third, title:"Post2title", content:"Post2content")
+Post.create(blog: Blog.third, title:"Post3title", content:"Post3content")
+
+Post.create(blog: Blog.fourth, title:"Post1title", content:"Post1content")
+Post.create(blog: Blog.fourth, title:"Post2title", content:"Post2content")
+Post.create(blog: Blog.fourth, title:"Post3title", content:"Post3content")
+
+Post.create(blog: Blog.fifth, title:"Post1title", content:"Post1content")
+Post.create(blog: Blog.fifth, title:"Post2title", content:"Post2content")
+Post.create(blog: Blog.fifth, title:"Post3title", content:"Post3content")
+
+3. create several messages for the first post.
+Message.create(post: Post.first, author:"message1author", message:"message1content")
+Message.create(post: Post.first, author:"message2author", message:"message2content")
+Message.create(post: Post.first, author:"message3author", message:"message3content")
+
+4. know how to retrieve all posts for the first blog.
+Post.where(blog: Blog.first)
+
+5. know how to retrieve all posts for the last blog (sorted by title in the DESC order).
+Post.where(blog: Blog.last).order(title: :desc)
+
+6. know how to update the first post's title.
+Post.first.update(title: "Post1updatedtitle")
+
+7. know how to delete the third post (have the model automatically delete all messages associated with the third post when you delete the third post).
+Message.create(post: Post.third, author:"message1author", message:"message1content")
+Message.create(post: Post.third, author:"message2author", message:"message2content")
+Post.third.destroy
+
+8. know how to retrieve all blogs.
+Blog.all
+
+9. know how to retrieve all blogs whose id is less than 5.
+Blog.where("id < 5")
+
+10. think of other potential information you may need for this application and get comfortable being able to pull information using the console.
+Message.where(post: Post.first)
