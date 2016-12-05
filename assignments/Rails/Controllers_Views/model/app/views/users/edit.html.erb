@@ -1,0 +1,7 @@
+<h1>Users#edit</h1>
+<p>A view file with a form with user's information in the appropriate input field.</p>
+<form action='/user/<%=@users.id %>' method='post'>
+  <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+  <input type='text' name='name' value="  <%=@users.name %>" />
+  <input type='submit' value='Edit' />
+</form>
