@@ -1,0 +1,29 @@
+rails g model Comment comment:string commentable:references
+
+class CreateComments < ActiveRecord::Migration
+  def change
+    create_table :comments do |t|
+      t.string :comment
+      t.references :commentable, polymorphic: true, index: true
+      t.timestamps
+    end
+  end
+end
+
+rake db:migrate
+
+Comment.create(commentable_id: User.fourth, commentable_type: Post.last, comment: "User.fourthPost.lastcomment1")
+Comment.create(commentable_id: User.first, commentable_type: Message.last, comment: "User.firstMessage.lastcomment1")
+Comment.create(commentable_id: User.first, commentable_type: Blog.last, comment: "User.firstBlog.lastcomment1")
+Comment.create(commentable_id: User.first, commentable_type: User.last, comment: "User.firstUser.lastcomment1")
+Comment.create(commentable_id: 2, commentable_type: Blog.first, comment: "User.second.Blog.firstcomment1")
+
+Comment.first.update(commentable_id: "1")
+Comment.create(commentable_id: 2, commentable_type: Blog.first, comment: "User.second.Blog.firstcomment1")
+User.first.comments.create(comment: "User.second.Blog.firstcommeent1")
+Blog.first.comments.create(comment: "User.second.Blog.firstcomment1")
+Post.first.comments.create(comment: "User.second.Blog.firstcomment1")
+Message.first.comments.create(comment: "User.second.Blog.firstcomment1")
+User.first.comments.destroy
+User.first.comments.create(comment: "User.second.Blog.firstcomment1")
+User.first.comments.second.update(comment: "User.second.Blog.firstcomment12")

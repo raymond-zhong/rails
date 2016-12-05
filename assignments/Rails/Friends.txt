@@ -1,0 +1,50 @@
+rails new Friends
+cd friends
+
+gem 'hirb'
+gem 'rails-footnotes', '~> 4.0'
+bundle install
+
+rails g model User first_name:string last_name:string
+rails g model Friendship friend:references user:references
+
+class CreateUsers < ActiveRecord::Migration
+  def change
+    create_table :users do |t|
+      t.string :first_name
+      t.string :last_name
+      t.references :friend, index: true
+      t.timestamps
+    end
+  end
+end
+
+rake db:migrate
+
+class User < ActiveRecord::Base
+  has_many :friends, class_name: "User",
+                          foreign_key: "user_id"
+
+  belongs_to :friend, class_name: "User"
+end
+
+class Friendship < ActiveRecord::Base
+  belongs_to :friend
+  belongs_to :user
+end
+
+rails c
+Hirb.enable
+
+1. Create 5 users
+User.create(first_name:"fname1", last_name:"lname1")
+User.create(first_name:"fname2", last_name:"lname2", friend: User.third)
+User.create(first_name:"fname3", last_name:"lname3", friend: User.first)
+
+User.first.update(friend: User.first)
+
+User.first
+User.first.friends
+User.where.not(friend: User.first)
+
+User.first.friends.select('first_name, last_name')
