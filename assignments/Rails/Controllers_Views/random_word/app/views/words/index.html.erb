@@ -1,0 +1,11 @@
+<div style="margin-top: 130px; margin-bottom: 10px;"><center>Random Word (attempt # <%=session[:count]%>)</center></div>
+<center><div style="border-style: solid; border-color: black; align-items: center; justify-content: center; font-size: 3em;
+  width: 500px; margin-bottom: 10px;"><%=session[:randomword]%></div></center>
+    <form action="/generate" method = "post">
+      <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+    <center><input type="submit" value = "Generate"></center>
+    </form>
+    <form action="/clear" method = "post">
+      <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+      <center><input type="submit" value ="Reset Attempt"></center>
+    </form>
