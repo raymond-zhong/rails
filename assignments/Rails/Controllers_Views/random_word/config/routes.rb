@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
-  # get 'words/index'
-  post '/generate' => 'words#index'
-  post '/clear' => 'words#clear'
   root 'words#index'
+  get 'words/index'
+  post '/generate' => 'words#generate'
+  post '/clear' => 'words#clear'
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

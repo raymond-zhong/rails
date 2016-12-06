@@ -1,8 +1,8 @@
 
 <center><div id ="center" style="text-align: left;padding: 50px; border-style: solid; border-color: black; margin: 100px;width: 300px;">
 <form action='/results/' method='POST'>
-    Your Name: <input type='text' name='name'><br>
-    Dojo Location:    <select name="location">
+    <label>Your Name: </label><input type='text' name="survey[name]"><br>
+    <label>Dojo Location:</label> <select name="survey[location]">
                       <option value="San Jose">San Jose</option>
                       <option value="Seattle">Seattle</option>
                       <option value="Los Angeles">Los Angeles</option>
@@ -10,7 +10,7 @@
                       <option value="Washington DC">Washington DC</option>
                       <option value="Chicago">Chicago</option>
                       </select><br>
-    Favorite Language: <select name="language">
+    <label>Favorite Language:</label><select name="survey[language]">
                       <option value="Python">Python</option>
                       <option value="SQL">SQL</option>
                       <option value="Java">Java</option>
@@ -19,7 +19,7 @@
                       <option value="C++">C++</option>
                       </select>
                       <br>
-    Comment (optional): <br><textarea rows="4" cols="50" name="comment"></textarea><br>
+    <label>Comment (optional): </label><br><textarea rows="4" cols="50" name="survey[comment]"></textarea><br>
       <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
     <input type='submit' value='Submit'>
 </form>

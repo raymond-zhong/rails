@@ -1,11 +1,30 @@
 
-<center><div id = "1" style=" background-color: lightgreen; border-style: solid; padding: 10px; border-color: black; width: 300px;text-align: left; margin-bottom: 10px;"> <%= flash[:message]%>
+<center><div id = "1" style=" background-color: lightgreen; border-style: solid; padding: 10px; border-color: black; width: 300px;text-align: left; margin-bottom: 10px;">
+  <% if flash[:success]%>
+   <p><%= flash[:success] %></p>
+   <% end %>
 </div>
-  <div id = "1" style="border-style: solid; padding: 10px; border-color: black; width: 300px; height: 250px; text-align: left; margin-bottom: 100px;">
-<h2>Submitted Information</h2>
-    <p>Name: <%=session[:name]%></p>
-    <p>Dojo Location: <%=session[:location]%></p>
-    <p>Favorite Language: <%= session[:language]%></p>
-    <p>Comment: <%= session[:comment]%></p>
-    <form action='/'><div id = "button"><input type="submit" value="Go Back" /></form>
-</div></br></br>
+  <div id = "2" style="border-style: solid; padding: 10px; border-color: black; width: 300px; height: 250px; text-align: left; margin-bottom: 100px;">
+<table>
+    <tr>
+        <td><h2>Submitted Information</h2></td>
+      </tr>
+      <tr>
+        <td>Name: <%=@result["name"] %></td>
+      </tr>
+      <tr>
+        <td>Dojo Location: <%=@result["location"] %></td>
+      </tr>
+      <tr>
+        <td>Favorite Language: <%=@result["language"] %></td>
+      </tr>
+      <tr>
+        <td>Comment: <%=@result["comment"] %></td>
+      </tr>
+      <tr>
+        <td> <%= button_to "Go Back", { :controller => "forms", :action => "index"}, :method => :get %></td>
+      </tr>
+  </table>
+    <!-- <form action='/'><input type="submit" value="Go Back" /></form> -->
+</div>
+<!-- </br></br> -->

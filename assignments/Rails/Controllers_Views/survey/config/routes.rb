@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   # get 'forms/index'
-  # get '/results/'=> 'forms#result'
-  post '/results/'=> 'forms#result'
+  get '/results/'=> 'forms#result'
+  post '/results/'=> 'forms#submit'
   root 'forms#index'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

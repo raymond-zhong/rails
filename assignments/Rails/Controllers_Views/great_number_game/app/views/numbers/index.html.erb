@@ -1,0 +1,26 @@
+<center><div style ="width: 500px;text-align: center;">
+  <h2>Welcome to the Great Number Game!</h1>
+  <p>I am thinking of a number between 1 and 100</p>
+  <div style = "text-align: center; padding: 5px;">Take a guess!</div>
+        <div><%=session[:random_number]%> is the number.</div>
+   <div><%=session[:count]%> is count.</div>
+        <% if flash[:message]%>
+   <div style = "text-align: center; margin-left: 130px; width: 150px; height: 100px; font-size: 1.5em;  padding: 50px; border-style: solid; border-color: black; background-color: red; color: white; padding-top: 100px; margin-top: 20px;">
+      <p><%= flash[:message] %></p></div>
+      <% end %>
+      <% if flash[:right]%>
+ <div style = "text-align: center; margin-left: 130px; width: 150px; height: 100px; font-size: 1.5em;  padding: 50px; border-style: solid; border-color: black; background-color: green; color: white; padding-top: 100px; margin-top: 20px;">
+    <p><%= flash[:right] %></p></div>
+    <% end %>
+  <div style ="margin-left: 150px; width: 20px;  padding: 20px;">
+  <% if !flash[:right]%>
+    <form action='/' method='post'>
+    <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+    <textarea rows="1" cols="15" name="guess"></textarea>
+    <center><input type="submit" value='Submit'></form>
+    <% end %>
+    <% if flash[:right]%>
+    <form action='/reset' method='get'><input type="submit" value='Play again!'></form></div>
+    <% end %>
+  </div>
+</div>

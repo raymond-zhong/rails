@@ -1,15 +1,14 @@
 class WordsController < ApplicationController
   def index
-    if !session[:count]
-      session[:count] = 0
-    else
-    session[:count] += 1
-  end
+    session[:count] = 0 if !session[:count].present?
+    end
+def generate
+  session[:count] += 1
   session[:randomword] = ([*('A'..'Z'),*('0'..'9')]-%w(0 1 I O)).sample(14).join
+  redirect_to action: "index"
 end
   def clear
-  session[:count] = 0
-  session[:randomword] = ([*('A'..'Z'),*('0'..'9')]-%w(0 1 I O)).sample(14).join
+  reset_session
   redirect_to "/"
 end
 end

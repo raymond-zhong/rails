@@ -1,19 +1,17 @@
 class FormsController < ApplicationController
   def index
-  end
-
-  def result
-    if session[:count] == nil
+    if !session[:count]
       session[:count] = 0
-    else
-    session[:count] += 1
-    # @user =  User.create( params[:user])
-    flash[:message]     = "Thanks for submitting this form! You have submitted this form " + session[:count].to_s + " times now."
-    session[:name]      = params[:name]
-    session[:location]  = params[:location]
-    session[:language]  = params[:language]
-    session[:comment]   = params[:comment]
-    render flash: {}
+    end
   end
+  def submit
+    session[:count] += 1
+    session[:result] = params[:survey]
+    flash[:success]  = "Thanks for submitting this form! You have submitted this form #{session[:count]} times(s) now."
+    redirect_to '/results/'
+  end
+  def result
+    @success_message = flash[:success]
+    @result = session[:result]
   end
 end
