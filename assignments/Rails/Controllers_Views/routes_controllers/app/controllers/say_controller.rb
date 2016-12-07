@@ -12,6 +12,7 @@ class SayController < ApplicationController
     render text: "What do you want me to say???"
   end
   def times
+    if
     session[:count] += 1
     render text: "You visited this url " +session[:count].to_s + " time"
     # render text:  session[:count]

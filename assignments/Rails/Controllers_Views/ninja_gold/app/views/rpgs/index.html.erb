@@ -1,0 +1,67 @@
+<div>
+  <div style="display: inline;">Your Gold: </div><div style ="border-style: solid; border-color: black; width: 150px; display: inline-block; height: 20px; padding: 5px;"><%= session[:gold] %></div>
+
+  <div style="30px; margin-top: 10px;">
+
+    <div style="background-color: white; font-size: 100%; width: 200px; height: 150px; display: inline-block; vertical-align: top; margin: 10px; border-style: solid; border-color: black; text-align: center;">
+      <div style="font-size: 18px; display: inline-block; vertical-align: top; color: black; padding-left: 15px; padding-top: 20px; padding-bottom: 5px; margin-left: 0px; font-weight: bold; text-align: center;">Farm
+      </div>
+        <div style="padding:10px">(earns 10-20 golds)
+        </div>
+          <form action="/rpgs/farm" method="post">
+    <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+          <input type="submit" value="Find Gold!"/>
+          </form>
+    </div>
+
+    <div style="background-color: white; font-size: 100%; width: 200px; height: 150px; display: inline-block; vertical-align: top; margin: 10px; border-style: solid; border-color: black; text-align: center;">
+      <div style="font-size: 18px; display: inline-block; vertical-align: top; color: black; padding-left: 15px; padding-top: 20px; padding-bottom: 5px; margin-left: 0px; font-weight: bold; text-align: center;">Cave
+      </div>
+        <div style="padding:10px;">(earns 5-10 golds)
+        </div>
+          <form action="/rpgs/cave" method="post">
+    <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+          <input type="submit" value="Find Gold!"/>
+          </form>
+    </div>
+
+    <div style="background-color: white; font-size: 100%; width: 200px; height: 150px; display: inline-block; vertical-align: top; margin: 10px; border-style: solid; border-color: black; text-align: center;">
+      <div style="font-size: 18px; display: inline-block; vertical-align: top; color: black; padding-left: 15px; padding-top: 20px; padding-bottom: 5px; margin-left: 0px; font-weight: bold; text-align: center;">House
+      </div>
+        <div style="padding:10px;">(earns 2-5 golds)
+        </div>
+          <form action="/rpgs/house" method="post">
+    <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+          <input type="submit" value="Find Gold!"/>
+          </form>
+    </div>
+
+    <div style="background-color: white; font-size: 100%; width: 200px; height: 150px; display: inline-block; vertical-align: top; margin: 10px; border-style: solid; border-color: black; text-align: center;">
+      <div style="font-size: 18px; display: inline-block; vertical-align: top; color: black; padding-left: 15px; padding-top: 20px; padding-bottom: 5px; margin-left: 0px; font-weight: bold; text-align: center;">Casino
+      </div>
+        <div style="padding:10px;">(earns/takes 0-50 golds)
+        </div>
+          <form action="/rpgs/casino" method="post">
+    <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+          <input type="submit" value="Find Gold!"/>
+          </form>
+    </div>
+<div>
+    <form action='/reset' method='get'><input type="submit" value='Reset'></form>
+    </div>
+    <p>Activities:</p>
+    <textarea rows="10" cols="150" >
+      <%if @activities%>
+        <%=@activities.capitalize do |act|  %>
+        <!-- <% if element.include?("Earned") %>​
+						<p class="earned"><%= act %></p>​
+					<% else %>​
+						<p class="lost"><%= act %></p>​
+					<% end %>​
+				<% end %>​
+			<% end %>​  -->
+  </textarea>
+
+
+  </div>
+</div>

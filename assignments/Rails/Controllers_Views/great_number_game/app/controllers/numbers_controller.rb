@@ -9,6 +9,7 @@ class NumbersController < ApplicationController
 
   def submit
       session[:count] += 1
+      if params[:guess].present?
       	guess = params[:guess].to_i
       	if (guess < session[:random_number])
   		    flash[:message] = "Too low!"
@@ -20,6 +21,10 @@ class NumbersController < ApplicationController
       	else
       		flash[:right] = " #{session[:random_number]} was the number!"
         end
+      else
+        flash[:message] = "Number Please!"
+        session[:count] -= 1
+      end
         redirect_to action: "index"
   end
 

@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
-  root 'numbers#index'
-  post '/' => 'numbers#submit'
-  get '/reset' => 'numbers#reset'
-
-
+  root 'rpgs#index'
+  get '/rpgs/index' => 'rpgs#farm'
+  post '/rpgs/farm' => 'rpgs#farm'
+  post '/rpgs/cave' => 'rpgs#cave'
+  post '/rpgs/casino' => 'rpgs#casino'
+  post '/rpgs/house' => 'rpgs#house'
+  get '/reset' => 'rpgs#reset'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
