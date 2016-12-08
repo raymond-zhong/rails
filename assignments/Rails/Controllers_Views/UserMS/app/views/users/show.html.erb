@@ -1,0 +1,21 @@
+<div style="padding:20px;">
+<table>
+  <tr>
+  <td style="text-align: left"><label style="font-weight:bold">First Name: </label></td>
+  <td style="text-align: left"><%= @user.first_name %></th>
+  </tr>
+    <td style="text-align: left"><label style="font-weight:bold">Last Name: </label></td>
+    <td style="text-align: left"><%= @user.last_name %></td>
+  </tr>
+    <td style="text-align: left"><label style="font-weight:bold">Email: </label></td>
+    <td style="text-align: left"><%= @user.email %></td>
+  </tr>
+</tr>
+  <td></td>
+</tr>
+</tr>
+  <td style="text-align: left"><a href="/users/<%= @user.id %>/edit">Edit</a> | <a href="/users/">Back</a></td>
+</tr>
+</table>
+
+</div>

@@ -1,0 +1,29 @@
+<h1>Listing users</h1>
+<!-- <% if flash[:message]%>
+<p><%= flash[:message] %></p>
+<% end %> -->
+
+<table style="border-collapse: collapse;">
+  <tr style="background-color: #dddddd">
+  <th style="padding:8px;border:1px solid black;text-align: left">First name</th>
+  <th style="padding:8px;border:1px solid black;text-align: left">Last name</th>
+  <th style="padding:8px;border:1px solid black;text-align: left">Email</th>
+  <th style=" width:200px;padding:8px;border:1px solid black;text-align: left"></th>
+  </tr>
+  <tbody><% @users.each do |user| %>
+  <tr><form action="/users/<%= user.id %>/" method="post">
+    <td style="padding:8px;border:1px solid black;text-align: left"><%= user.first_name %></td>
+    <td style="padding:8px;border:1px solid black;text-align: left"><%= user.last_name %></td>
+    <td style="padding:8px;border:1px solid black;text-align: left"><%= user.email %></td>
+    <td style="padding:8px;border:1px solid black;text-align: left">
+        <a href="/users/<%= user.id %>/">Show</a> |
+        <a href="/users/<%= user.id %>/edit">Edit</a> |
+            <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden" />
+            <input type="hidden" name="_method" value="delete"> <button type="submit"> Destroy</button>
+          </form>
+        </td>
+  </tr>
+  <% end %>
+</tbody>
+</table>
+<a href="/users/new">New User</a>

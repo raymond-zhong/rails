@@ -1,7 +1,7 @@
-<div>
+
   <div style="display: inline;">Your Gold: </div><div style ="border-style: solid; border-color: black; width: 150px; display: inline-block; height: 20px; padding: 5px;"><%= session[:gold] %></div>
 
-  <div style="30px; margin-top: 10px;">
+  <div style="margin-top: 10px;">
 
     <div style="background-color: white; font-size: 100%; width: 200px; height: 150px; display: inline-block; vertical-align: top; margin: 10px; border-style: solid; border-color: black; text-align: center;">
       <div style="font-size: 18px; display: inline-block; vertical-align: top; color: black; padding-left: 15px; padding-top: 20px; padding-bottom: 5px; margin-left: 0px; font-weight: bold; text-align: center;">Farm
@@ -50,18 +50,16 @@
     <form action='/reset' method='get'><input type="submit" value='Reset'></form>
     </div>
     <p>Activities:</p>
-    <textarea rows="10" cols="150" >
-      <%if @activities%>
-        <%=@activities.capitalize do |act|  %>
-        <!-- <% if element.include?("Earned") %>​
-						<p class="earned"><%= act %></p>​
+    <div style="font-size: .9em; width: 979px; height: 200px; overflow: scroll; padding: 3px; border: 1px solid gray;">
+      <% if @activities %>​
+				<% @activities.reverse.each do |act| %>​
+					<% if act.include?("Earned") %>​
+						<p style="color: green; padding: 0px; "><%= act %>
 					<% else %>​
-						<p class="lost"><%= act %></p>​
+						<p style="color: red; padding: 0px; "><%= act %>
 					<% end %>​
 				<% end %>​
-			<% end %>​  -->
-  </textarea>
-
+			<% end %>​
+  </div>
 
   </div>
-</div>

@@ -4,7 +4,7 @@ class RpgsController < ApplicationController
             session[:gold] = 0
           end
         if !session[:log].present?
-            session[:log] = "\n"
+            session[:log] = []
           end
           @activities = session[:log]
   end
@@ -13,7 +13,7 @@ class RpgsController < ApplicationController
         @num = rand(10..21)
         session[:gold] += @num
         @time = Time.now
-        session[:log] <<"Earned #{@num} golds from the farm! #{@time.strftime("(%Y/%m/%d  %-I:%M  %p)")}"+"\n"
+        session[:log].push("Earned #{@num} golds from the farm! #{@time.strftime("(%Y/%m/%d  %-I:%M  %p)")}")
 
         # @message1 = " Earned "
         # @message2 = " golds from the farm!"
@@ -28,7 +28,7 @@ class RpgsController < ApplicationController
         @num = rand(5..11)
         session[:gold] += @num
         @time = Time.now
-        session[:log] <<"Earned #{@num} golds from the farm! #{@time.strftime("(%Y/%m/%d  %-I:%M  %p)")}"+"\n"
+        session[:log].push("Earned #{@num} golds from the cave! #{@time.strftime("(%Y/%m/%d  %-I:%M  %p)")}")
 
         # @message1 = " Earned "
         # @message2 = " golds from the cave!"
@@ -44,12 +44,12 @@ class RpgsController < ApplicationController
         session[:gold] = @num + session[:gold]
         @time = Time.now
         if @num > 0
-        session[:log] <<"Earned #{@num} golds from the farm! #{@time.strftime("(%Y/%m/%d  %-I:%M  %p)")}"+"\n"
+        session[:log].push("Earned #{@num} golds from the casino! #{@time.strftime("(%Y/%m/%d  %-I:%M  %p)")}")
 
             # @message1 = " Earned "
             # @message2 = " golds from the casino!"
         else
-          session[:log] <<"Entered a casino and lost #{@num} golds... Ouch... #{@time.strftime("(%Y/%m/%d  %-I:%M  %p)")}"+"\n"
+          session[:log].push("Entered a casino and lost #{@num} golds... Ouch... #{@time.strftime("(%Y/%m/%d  %-I:%M  %p)")}")
 
             # @message1 = " Entered a casino and lost "
             # @message2 = " golds... Ouch..."
@@ -69,7 +69,7 @@ class RpgsController < ApplicationController
         @num = rand(2..6)
         session[:gold] += @num
         @time = Time.now
-        session[:log] <<"Earned #{@num} golds from the farm! #{@time.strftime("(%Y/%m/%d  %-I:%M  %p)")}"+"\n"
+        session[:log].push("Earned #{@num} golds from the house! #{@time.strftime("(%Y/%m/%d  %-I:%M  %p)")}")
 
         # @message1 = " Earned "
         # @message2 = " golds from the house!"
