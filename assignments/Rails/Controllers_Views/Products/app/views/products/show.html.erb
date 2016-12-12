@@ -1,0 +1,40 @@
+<div style="padding:20px;">
+<table>
+  <tr>
+  <td style="text-align: left"><label style="font-weight:bold">Name: </label></td>
+  <td style="text-align: left"><%= @product.name %></th>
+  </tr>
+    <td style="text-align: left"><label style="font-weight:bold">Description: </label></td>
+    <td style="text-align: left"><%= @product.description %></td>
+  </tr>
+    <td style="text-align: left"><label style="font-weight:bold">Price: </label></td>
+    <td style="text-align: left"><%= number_to_currency(@product.pricing)  %></td>
+  </tr>
+</tr>
+<td style="text-align: left"><label style="font-weight:bold">Category: </label></td>
+<td style="text-align: left"><%= @product.category.name %></th>
+</tr>
+  <td></td>
+</tr>
+</tr>
+  <td style="text-align: left"><a href="/products/<%= @product.id %>/edit">Edit</a> | <a href="/products/">Back</a></td>
+</tr>
+</table>
+<form action="/comments/<%= @product.id %>" method="post">
+  <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden">
+  <h2 style="height:10px;">Comment: </h2>
+  <textarea rows="4" cols="50" name="comment[content]"/></textarea><input type="submit" value="Submit" />
+</form>
+<table>
+  <tr>
+  <th></th>
+  </tr>
+  <tbody><% @product.comments.each do |comment| %>
+  <tr>
+    <td><%= comment.content %> - <%= comment.created_at.strftime("%m/%d/%y")%> <a href="/comments/<%= comment.id %>" data-method = "delete">Delete Comment</a></td>
+    <td></td>
+  </tr>
+  <% end %>
+</tbody>
+</table>
+</div>

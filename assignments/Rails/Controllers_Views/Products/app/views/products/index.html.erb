@@ -1,0 +1,26 @@
+<h1>Listing products <form action="/comments/" method="get"><input type="submit" value="All comments" /></form></h1>
+
+<table style="border-collapse: collapse;">
+  <tr style="background-color: #dddddd">
+  <th style="padding:8px;border:1px solid black;text-align: left">Name</th>
+  <th style="padding:8px;border:1px solid black;text-align: left">Description</th>
+  <th style="padding:8px;border:1px solid black;text-align: left">Price</th>
+    <th style="padding:8px;border:1px solid black;text-align: left">Category</th>
+  <th style=" width:200px;padding:8px;border:1px solid black;text-align: left"></th>
+  </tr>
+  <tbody><% @products.each do |product| %>
+  <tr>
+    <td style="padding:8px;border:1px solid black;text-align: left"><%= product.name %></td>
+    <td style="padding:8px;border:1px solid black;text-align: left"><%= product.description %></td>
+    <td style="padding:8px;border:1px solid black;text-align: left"><%= number_to_currency(product.pricing) %></td>
+    <td style="padding:8px;border:1px solid black;text-align: left"><%= product.category.name %></td>
+    <td style="padding:8px;border:1px solid black;text-align: left">
+        <a href="/products/<%= product.id %>/">Show</a> |
+        <a href="/products/<%= product.id %>/edit">Edit</a> |
+        <a href="/products/<%= product.id %>" data-method = "delete">Destroy</a>
+        </td>
+  </tr>
+  <% end %>
+</tbody>
+</table>
+<a href="/products/new">New Product</a>
