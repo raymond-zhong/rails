@@ -35,11 +35,6 @@ def destroy
   redirect_to '/sessions/new'
 end
 
-def logout
-  reset_session
-  redirect_to '/sessions/new'
-end
-
 def edit
   @user = User.find(params[:id])
 end

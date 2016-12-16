@@ -17,38 +17,10 @@ class SecretsController < ApplicationController
     end
   end
 
-  def new
-    @secret = Secret.new
-  end
-
-def show
-  @secret = Secret.find(params[:id])
-end
-
 def destroy
   secret = Secret.find(params[:id])
   secret.destroy if secret.user == current_user
   redirect_to "/users/#{session[:user_id]}"
 end
-
-def edit
-  @secret = Secret.find(params[:id])
-end
-
-def update
-  @secret = Secret.find(params[:id])
-  if @secret.update_attributes(secret_params)
-
-    redirect_to :back
-  else
-    flash[:errors] = @secret.errors.full_messages
-    redirect_to :back
-  end
-end
-
-private
-  def secret_params
-    params.require(:secret).permit(:content)
-  end
 
 end

@@ -18,17 +18,10 @@ Rails.application.routes.draw do
   get 'secrets/'=> 'secrets#index'
   get 'secrets/index'
   post 'secrets/'=> 'secrets#create'
-  get 'secrets/:id/edit'=> 'secrets#edit'
-  patch 'secrets/:id'=> 'secrets#update'
   get 'secrets/:id'=> 'secrets#show'
   delete 'secrets/:id'=> 'secrets#destroy'
 
-  get 'likes/'=> 'likes#index'
-  get 'likes/index'
   post 'likes/'=> 'likes#create'
-  get 'likes/:id/edit'=> 'likes#edit'
-  patch 'likes/:id'=> 'likes#update'
-  get 'likes/:id'=> 'likes#update'
   delete 'likes/:id'=> 'likes#destroy'
   # resources :users
   # resources :sessions

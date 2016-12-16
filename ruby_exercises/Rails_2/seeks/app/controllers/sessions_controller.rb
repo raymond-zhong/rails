@@ -19,6 +19,7 @@ class SessionsController < ApplicationController
     reset_session
     redirect_to "/sessions/new"
   end
+  
 private
   def user_params
     params.require(:user).permit(:email, :password)

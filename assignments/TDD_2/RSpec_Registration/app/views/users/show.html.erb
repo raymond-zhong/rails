@@ -1,0 +1,33 @@
+<h1>Registered user: <%= @user.first_name %> <%= @user.last_name %></h1>
+<!-- <% if flash[:message]%>
+<p><%= flash[:message] %></p>
+<% end %> -->
+<!-- <form action="/users/" method="post"> -->
+  <!-- <input name="authenticity_token" value="<%= form_authenticity_token %>" type="hidden"> -->
+  <table>
+  <tr>
+<td style="text-align: left"><label>First Name:</label></td>
+  <td style="text-align: left"><%= @user.first_name %></td>
+  </tr>
+  <tr>
+  <td style="text-align: left"><label>Last Name:</label></td>
+  <td style="text-align: left"><%= @user.last_name %></td>
+  </tr>
+  <tr>
+  <td style="text-align: left"><label>Email: </label></td>
+  <td style="text-align: left"><%= @user.email %></td>
+  </tr>
+  <tr>
+  <td style="text-align: left"><label>Password: </label></td>
+  <td style="text-align: left"><%= @user.password %></td>
+  </tr>
+  <!-- <tr>
+  <td style="text-align: left"><label>Confirm Password: </label></td>
+  <td style="text-align: left"><input type="password" name="user.confirm_password"/></td>
+  </tr> -->
+  <tr>
+
+</table>
+<!-- <input type="submit" value="Register" /> -->
+<!-- </form> -->
+<a href="/us

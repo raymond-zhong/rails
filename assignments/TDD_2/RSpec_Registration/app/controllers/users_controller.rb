@@ -1,14 +1,17 @@
 class UsersController < ApplicationController
   def index
-    @user = User.new
+    # @user = User.new
+  end
+  def show
+    @user = User.find(params[:id])
   end
 
   def new
     # binding.pry
-    @user = User.create(user_params)
+    @user = User.new(user_params)
     # @user = User.create(params[:user])
   if @user.save
-        redirect_to '/'
+        redirect_to "/users/#{@user.id}"
   else
     flash[:errors] = @user.errors.full_messages
     redirect_to '/'

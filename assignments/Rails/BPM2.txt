@@ -153,7 +153,11 @@ User.find(3).messages
 17. Retrieve all posts associated with the first blog as well as who left these posts.
 Post.select('blog_id, users.first_name, last_name, title, content, posts.updated_at').joins(:user).where(blog: Blog.find(1))
 
+Post.select('blog_id, users.first_name, last_name, title, content, posts.updated_at').joins(:user).where(blog: Blog.find(1))
+
 Post.select('*').joins(:user).where(blog: Blog.find(1))
+Product.select('products.product.id, pricing, description, category_id, categories.id, categories.name').joins(:category)
+
 
 Post.find_by_sql("SELECT * FROM posts join users on posts.user_id = users.id WHERE posts.blog_id = 1")
 
@@ -168,6 +172,7 @@ t.datetime "updated_at"
 Message.select('messages.*, users.*, posts.blog_id').joins(:user).joins(:post).where('posts.blog_id=1')
 
 Post.select('messages.user_id, messages.post_id, author, message, first_name, last_name, messages.updated_at').joins(:messages, :user).where(blog: Blog.find(1))
+Product.select('messages.product_id, messages.post_id, author, message, first_name, last_name, messages.updated_at').joins(:messages, :user)
 
 create_table "messages", force: true do |t|
   t.string   "author"
